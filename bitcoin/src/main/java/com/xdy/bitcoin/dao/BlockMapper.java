@@ -1,5 +1,6 @@
 package com.xdy.bitcoin.dao;
 
+import com.github.pagehelper.Page;
 import com.xdy.bitcoin.po.Block;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface BlockMapper {
     int updateByPrimaryKey(Block record);
 
     List<Block> blocks();
+
+    Page<Block> page();
 }

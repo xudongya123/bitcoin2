@@ -2,6 +2,8 @@ package com.xdy.bitcoin.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.xdy.bitcoin.client.BitcoinRest;
 import com.xdy.bitcoin.dao.BlockMapper;
 import com.xdy.bitcoin.dao.TransactionMapper;
@@ -76,6 +78,13 @@ public class BlockServiceImpl implements BlockService {
     public List<Block> getRecent() {
         List<Block> blockss=blockMapper.blocks();
         return blockss;
+    }
+
+    @Override
+    public Page<Block> getPage(Integer page) {
+        PageHelper.startPage(page, 20);
+        Page<Block> blocks = blockMapper.page();
+        return blocks;
     }
 
 }
