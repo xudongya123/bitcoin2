@@ -9,6 +9,8 @@ import com.xdy.bitcoin.po.Block;
 import com.xdy.bitcoin.po.Transaction;
 import com.xdy.bitcoin.service.BlockService;
 import com.xdy.bitcoin.service.TransactionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 
 @Service
 public class BlockServiceImpl implements BlockService {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private BitcoinRest bitcoinRest;
@@ -57,9 +61,11 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public void syncBlocks(String fromBlockhash) {
+         logger.info("begin to sync blicks");
         String tempBlockhash = fromBlockhash;
         while (tempBlockhash != null){
             tempBlockhash = syncBlock(tempBlockhash);
         }
+        logger.info("end sync blocks");
     }
 }
