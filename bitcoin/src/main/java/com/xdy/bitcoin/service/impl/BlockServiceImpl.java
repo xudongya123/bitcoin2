@@ -12,9 +12,11 @@ import com.xdy.bitcoin.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BlockServiceImpl implements BlockService {
@@ -60,6 +62,7 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
+    @Async
     public void syncBlocks(String fromBlockhash) {
          logger.info("begin to sync blicks");
         String tempBlockhash = fromBlockhash;
@@ -68,4 +71,11 @@ public class BlockServiceImpl implements BlockService {
         }
         logger.info("end sync blocks");
     }
+
+    @Override
+    public List<Block> getRecent() {
+        List<Block> blockss=blockMapper.blocks();
+        return blockss;
+    }
+
 }

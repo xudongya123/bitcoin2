@@ -2,6 +2,8 @@ package com.xdy.bitcoin.dao;
 
 import com.xdy.bitcoin.po.Block;
 
+import java.util.List;
+
 public interface BlockMapper {
     int deleteByPrimaryKey(Integer blockId);
 
@@ -14,4 +16,6 @@ public interface BlockMapper {
     int updateByPrimaryKeySelective(Block record);
 
     int updateByPrimaryKey(Block record);
+
+    List<Block> blocks();
 }
