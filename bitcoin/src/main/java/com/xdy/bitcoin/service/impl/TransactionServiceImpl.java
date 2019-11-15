@@ -1,14 +1,14 @@
-package io.cjf.bitcoinexplorerback.service.impl;
+package com.xdy.bitcoin.service.impl;
 
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import io.cjf.bitcoinexplorerback.client.BitcoinRest;
-import io.cjf.bitcoinexplorerback.dao.TransactionMapper;;
-import io.cjf.bitcoinexplorerback.enumeration.TxDetailType;
-import io.cjf.bitcoinexplorerback.po.Transaction;
-import io.cjf.bitcoinexplorerback.po.TransactionDetail;
-import io.cjf.bitcoinexplorerback.service.TransactionService;
+import com.xdy.bitcoin.client.BitcoinRest;
+import com.xdy.bitcoin.dao.TransactionMapper;;
+import com.xdy.bitcoin.enumeration.TxDetailType;
+import com.xdy.bitcoin.po.Transaction;
+import com.xdy.bitcoin.po.TransactionDetail;
+import com.xdy.bitcoin.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -29,7 +29,6 @@ public class TransactionServiceImpl implements TransactionService {
     public void syncTransaction(String txid, Integer blockId, Long time) {
         JSONObject transactionJson = bitcoinRest.getTransaction(txid);
         Transaction transaction = new Transaction();
-        //set amount
         transaction.setBlockId(blockId);
         transaction.setSizeondisk(transactionJson.getInteger("size"));
         transaction.setStatus((byte)0);
@@ -46,8 +45,6 @@ public class TransactionServiceImpl implements TransactionService {
         for (JSONObject vout : vouts) {
             transactionDetailService.syncTxDetailVout(vout, transactionId);
         }
-
-        //todo insert tx detail vin
         List<JSONObject> vins = transactionJson.getJSONArray("vin").toJavaList(JSONObject.class);
         for (JSONObject vin : vins) {
             transactionDetailService.syncTxDetailVin(vin, transactionId);

@@ -21,12 +21,12 @@
     <result column="nonce" jdbcType="VARCHAR" property="nonce" />
   </resultMap>
   <sql id="Base_Column_List">
-    block_id, blockhash, height, time, miner, sizeOnDisk, confirmations, txSize, difficulty, 
-    merkle_root, bits, version, weight, block_reward, fee_reward, transaction_volume, 
+    block_id, blockhash, height, time, miner, sizeOnDisk, confirmations, txSize, difficulty,
+    merkle_root, bits, version, weight, block_reward, fee_reward, transaction_volume,
     nonce
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from block
     where block_id = #{blockId,jdbcType=INTEGER}
@@ -35,19 +35,19 @@
     delete from block
     where block_id = #{blockId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xdy.bitcoin.po.Block">
-    insert into block (block_id, blockhash, height, 
-      time, miner, sizeOnDisk, 
-      confirmations, txSize, difficulty, 
-      merkle_root, bits, version, 
-      weight, block_reward, fee_reward, 
-      transaction_volume, nonce)
-    values (#{blockId,jdbcType=INTEGER}, #{blockhash,jdbcType=CHAR}, #{height,jdbcType=INTEGER}, 
-      #{time,jdbcType=BIGINT}, #{miner,jdbcType=VARCHAR}, #{sizeondisk,jdbcType=INTEGER}, 
-      #{confirmations,jdbcType=INTEGER}, #{txsize,jdbcType=INTEGER}, #{difficulty,jdbcType=DOUBLE}, 
-      #{merkleRoot,jdbcType=CHAR}, #{bits,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, 
-      #{weight,jdbcType=INTEGER}, #{blockReward,jdbcType=DOUBLE}, #{feeReward,jdbcType=DOUBLE}, 
-      #{transactionVolume,jdbcType=DOUBLE}, #{nonce,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.xdy.bitcoin.po.Block" useGeneratedKeys="true" keyProperty="blockId">
+    insert into block (blockhash, height,
+                       time, miner, sizeOnDisk,
+                       confirmations, txSize, difficulty,
+                       merkle_root, bits, version,
+                       weight, block_reward, fee_reward,
+                       transaction_volume, nonce)
+    values (#{blockhash,jdbcType=CHAR}, #{height,jdbcType=INTEGER},
+            #{time,jdbcType=BIGINT}, #{miner,jdbcType=VARCHAR}, #{sizeondisk,jdbcType=INTEGER},
+            #{confirmations,jdbcType=INTEGER}, #{txsize,jdbcType=INTEGER}, #{difficulty,jdbcType=DOUBLE},
+            #{merkleRoot,jdbcType=CHAR}, #{bits,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR},
+            #{weight,jdbcType=INTEGER}, #{blockReward,jdbcType=DOUBLE}, #{feeReward,jdbcType=DOUBLE},
+            #{transactionVolume,jdbcType=DOUBLE}, #{nonce,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xdy.bitcoin.po.Block">
     insert into block
@@ -215,21 +215,21 @@
   <update id="updateByPrimaryKey" parameterType="com.xdy.bitcoin.po.Block">
     update block
     set blockhash = #{blockhash,jdbcType=CHAR},
-      height = #{height,jdbcType=INTEGER},
-      time = #{time,jdbcType=BIGINT},
-      miner = #{miner,jdbcType=VARCHAR},
-      sizeOnDisk = #{sizeondisk,jdbcType=INTEGER},
-      confirmations = #{confirmations,jdbcType=INTEGER},
-      txSize = #{txsize,jdbcType=INTEGER},
-      difficulty = #{difficulty,jdbcType=DOUBLE},
-      merkle_root = #{merkleRoot,jdbcType=CHAR},
-      bits = #{bits,jdbcType=INTEGER},
-      version = #{version,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=INTEGER},
-      block_reward = #{blockReward,jdbcType=DOUBLE},
-      fee_reward = #{feeReward,jdbcType=DOUBLE},
-      transaction_volume = #{transactionVolume,jdbcType=DOUBLE},
-      nonce = #{nonce,jdbcType=VARCHAR}
+        height = #{height,jdbcType=INTEGER},
+        time = #{time,jdbcType=BIGINT},
+        miner = #{miner,jdbcType=VARCHAR},
+        sizeOnDisk = #{sizeondisk,jdbcType=INTEGER},
+        confirmations = #{confirmations,jdbcType=INTEGER},
+        txSize = #{txsize,jdbcType=INTEGER},
+        difficulty = #{difficulty,jdbcType=DOUBLE},
+        merkle_root = #{merkleRoot,jdbcType=CHAR},
+        bits = #{bits,jdbcType=INTEGER},
+        version = #{version,jdbcType=VARCHAR},
+        weight = #{weight,jdbcType=INTEGER},
+        block_reward = #{blockReward,jdbcType=DOUBLE},
+        fee_reward = #{feeReward,jdbcType=DOUBLE},
+        transaction_volume = #{transactionVolume,jdbcType=DOUBLE},
+        nonce = #{nonce,jdbcType=VARCHAR}
     where block_id = #{blockId,jdbcType=INTEGER}
   </update>
 </mapper>
