@@ -38,9 +38,26 @@ public class TransactionController {
         return null;
     }
 
-    @GetMapping("/getByTxhash")
-    public JSONObject getByTxhash(@RequestParam String txhash){
-        return null;
+    @GetMapping("/getByTxid")
+    public JSONObject getByTxhash(@RequestParam String txid){
+        Transaction tx = transactionService.getByTxid(txid);
+        JSONObject txJson = new JSONObject();
+        txJson.put("txid", tx.getTxid());
+        txJson.put("txhash", tx.getTxhash());
+        txJson.put("time", tx.getTime());
+        txJson.put("fees", tx.getFees());
+        txJson.put("totalOutput", tx.getTotalOutput());
+
+        List<TransactionDetail> txDetails = transactionDetailService.getByTransactionId(tx.getTransactionId());
+        List<JSONObject> txDetailJsons = txDetails.stream().map(txDetail -> {
+            JSONObject txDetailJson = new JSONObject();
+            txDetailJson.put("address", txDetail.getAddress());
+            txDetailJson.put("type", txDetail.getType());
+            txDetailJson.put("amount", Math.abs(txDetail.getAmount()));
+            return txDetailJson;
+        }).collect(Collectors.toList());
+        txJson.put("txDetails", txDetailJsons);
+        return txJson;
     }
 
     @GetMapping("/getByBlockhashPage")
