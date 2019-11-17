@@ -14,4 +14,5 @@ public class BitcoinScheduler {
     public void syncData(){
         logger.info("begin to sync bitcoin data");
     }
+
 }

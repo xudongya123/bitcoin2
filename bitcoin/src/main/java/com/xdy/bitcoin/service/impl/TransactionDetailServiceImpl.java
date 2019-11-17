@@ -2,12 +2,12 @@ package com.xdy.bitcoin.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xdy.bitcoin.client.BitcoinRest;
-import com.xdy.bitcoin.client.Bitcoinjson;
-import com.xdy.bitcoin.dao.TransactionDetailMapper;
 import com.xdy.bitcoin.enumeration.TxDetailType;
 import com.xdy.bitcoin.po.TransactionDetail;
 import com.xdy.bitcoin.service.TransactionDetailService;
+import com.xdy.bitcoin.client.BitcoinJsonRpcImpl;
+import com.xdy.bitcoin.client.BitcoinRest;
+import com.xdy.bitcoin.dao.TransactionDetailMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,8 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
     private TransactionDetailMapper  transactionDetailMapper;
 
     @Autowired
-    private Bitcoinjson bitcoinRpc;
+    private BitcoinJsonRpcImpl bitcoinJsonRpc;
+
     @Override
     public void syncTxDetailVout(JSONObject vout, Integer transactionId) {
         TransactionDetail transactionDetail = new TransactionDetail();
@@ -35,6 +36,7 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
             transactionDetail.setAmount(vout.getDouble("value"));
             transactionDetail.setType((byte) TxDetailType.Receive.ordinal());
             transactionDetail.setTransactionId(transactionId);
+
             transactionDetailMapper.insert(transactionDetail);
         }
     }
@@ -48,9 +50,8 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
         Integer n = vin.getInteger("vout");
         if (txidVin != null && n != null){
 
-
             try {
-                JSONObject transactionJson = bitcoinRpc.getTransaction(txidVin);
+                JSONObject transactionJson = bitcoinJsonRpc.getRawTransaction(txidVin);
                 JSONArray vouts = transactionJson.getJSONArray("vout");
                 JSONObject vout = vouts.getJSONObject(n);
                 Double amount = vout.getDouble("value");
@@ -62,10 +63,16 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
                     transactionDetail.setAddress(address);
                     transactionDetailMapper.insert(transactionDetail);
                 }
-            }catch (Throwable throwable){
+            } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
 
         }
+    }
+
+    @Override
+    public List<TransactionDetail> getByTransactionId(Integer transactionId) {
+        List<TransactionDetail> transactionDetails = transactionDetailMapper.selectByTransactionId(transactionId);
+        return transactionDetails;
     }
 }

@@ -1,9 +1,8 @@
 package com.xdy.bitcoin.dto;
 
-
 import java.util.List;
 
-public class PageDto<T> {
+public class PageDTO<T> {
     private Long total;
     private Integer pageSize;
     private Integer currentPage;

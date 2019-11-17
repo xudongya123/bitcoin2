@@ -1,6 +1,9 @@
 package com.xdy.bitcoin.dao;
 
 import com.xdy.bitcoin.po.TransactionDetail;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TransactionDetailMapper {
     int deleteByPrimaryKey(Long txDetailId);
@@ -14,4 +17,6 @@ public interface TransactionDetailMapper {
     int updateByPrimaryKeySelective(TransactionDetail record);
 
     int updateByPrimaryKey(TransactionDetail record);
+
+    List<TransactionDetail> selectByTransactionId(@Param("transactionId") Integer transactionId);
 }

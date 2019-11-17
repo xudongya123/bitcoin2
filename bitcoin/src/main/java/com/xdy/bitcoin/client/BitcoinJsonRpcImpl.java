@@ -11,20 +11,25 @@ import java.util.Base64;
 import java.util.HashMap;
 
 @Service
-public class Bitcoinjson implements BitcoinRpc{
+public class BitcoinJsonRpcImpl implements BitcoinJsonRpc{
 
     private JsonRpcHttpClient jsonRpcHttpClient;
 
-    public Bitcoinjson(@Value("${bitcoin.jsonrpc.url}") String url,@Value("${bitcoin.jsonrpc.username}") String username, @Value("${bitcoin.jsonrpc.password}") String password) throws MalformedURLException {
+    public BitcoinJsonRpcImpl(@Value("${bitcoin.jsonrpc.url}") String url,
+                              @Value("${bitcoin.jsonrpc.username}") String username,
+                              @Value("${bitcoin.jsonrpc.password}") String password) throws MalformedURLException {
         jsonRpcHttpClient = new JsonRpcHttpClient(new URL(url));
         HashMap<String, String> headers = new HashMap<>();
+
         String str = username+":"+password;
         String str64 = Base64.getEncoder().encodeToString(str.getBytes());
         headers.put("Authorization", "Basic "+str64);
         jsonRpcHttpClient.setHeaders(headers);
+
     }
+
     @Override
-    public JSONObject getTransaction(String txid) throws Throwable {
+    public JSONObject getRawTransaction(String txid) throws Throwable {
         JSONObject jsonObject = jsonRpcHttpClient.invoke("getrawtransaction", new Object[] { txid, true }, JSONObject.class);
         return jsonObject;
     }

@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/address")
 public class AddressController {
 
-
     @GetMapping("/getInfoByAddress")
     public JSONObject getInfoByAddress(@RequestParam String address){
         return null;
     }
-
 }

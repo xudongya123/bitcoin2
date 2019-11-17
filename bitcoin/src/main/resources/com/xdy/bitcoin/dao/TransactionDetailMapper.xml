@@ -12,7 +12,7 @@
     tx_detail_id, address, type, amount, transaction_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from transaction_detail
     where tx_detail_id = #{txDetailId,jdbcType=BIGINT}
@@ -23,9 +23,9 @@
   </delete>
   <insert id="insert" parameterType="com.xdy.bitcoin.po.TransactionDetail" useGeneratedKeys="true" keyProperty="txDetailId">
     insert into transaction_detail (address, type,
-                                    amount, transaction_id)
+      amount, transaction_id)
     values (#{address,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
-            #{amount,jdbcType=DOUBLE}, #{transactionId,jdbcType=INTEGER})
+      #{amount,jdbcType=DOUBLE}, #{transactionId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xdy.bitcoin.po.TransactionDetail">
     insert into transaction_detail
@@ -85,9 +85,17 @@
   <update id="updateByPrimaryKey" parameterType="com.xdy.bitcoin.po.TransactionDetail">
     update transaction_detail
     set address = #{address,jdbcType=VARCHAR},
-        type = #{type,jdbcType=TINYINT},
-        amount = #{amount,jdbcType=DOUBLE},
-        transaction_id = #{transactionId,jdbcType=INTEGER}
+      type = #{type,jdbcType=TINYINT},
+      amount = #{amount,jdbcType=DOUBLE},
+      transaction_id = #{transactionId,jdbcType=INTEGER}
     where tx_detail_id = #{txDetailId,jdbcType=BIGINT}
   </update>
+
+
+  <select id="selectByTransactionId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from transaction_detail
+    where transaction_id = #{transactionId}
+  </select>
 </mapper>

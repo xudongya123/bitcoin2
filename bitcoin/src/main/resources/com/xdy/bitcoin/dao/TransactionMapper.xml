@@ -38,7 +38,7 @@
       status, sizeOnDisk, weight, 
       total_input, total_output, fee_per_byte, 
       fee_per_weight_unit, block_id)
-    values ( #{txid,jdbcType=CHAR}, #{txhash,jdbcType=CHAR},
+    values (#{txid,jdbcType=CHAR}, #{txhash,jdbcType=CHAR},
       #{time,jdbcType=BIGINT}, #{amount,jdbcType=DOUBLE}, #{fees,jdbcType=DOUBLE}, #{confirmations,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{sizeondisk,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
       #{totalInput,jdbcType=DOUBLE}, #{totalOutput,jdbcType=DOUBLE}, #{feePerByte,jdbcType=DOUBLE}, 
@@ -207,4 +207,20 @@
       block_id = #{blockId,jdbcType=INTEGER}
     where transaction_id = #{transactionId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectByBlockId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from transaction
+    where block_id = #{blockId}
+  </select>
+
+  <select id="selectByBlockIdPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from transaction
+    where block_id = #{blockId}
+  </select>
+
 </mapper>

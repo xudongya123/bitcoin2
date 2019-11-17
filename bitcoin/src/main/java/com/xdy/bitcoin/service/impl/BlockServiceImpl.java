@@ -1,16 +1,12 @@
 package com.xdy.bitcoin.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.xdy.bitcoin.po.Block;
+import com.xdy.bitcoin.service.BlockService;
 import com.xdy.bitcoin.client.BitcoinRest;
 import com.xdy.bitcoin.dao.BlockMapper;
-import com.xdy.bitcoin.dao.TransactionMapper;
-import com.xdy.bitcoin.po.Block;
-import com.xdy.bitcoin.po.Transaction;
-import com.xdy.bitcoin.service.BlockService;
-import com.xdy.bitcoin.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +62,7 @@ public class BlockServiceImpl implements BlockService {
     @Override
     @Async
     public void syncBlocks(String fromBlockhash) {
-         logger.info("begin to sync blicks");
+        logger.info("begin to sync blocks");
         String tempBlockhash = fromBlockhash;
         while (tempBlockhash != null){
             tempBlockhash = syncBlock(tempBlockhash);
@@ -76,15 +72,20 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public List<Block> getRecent() {
-        List<Block> blockss=blockMapper.blocks();
-        return blockss;
-    }
-
-    @Override
-    public Page<Block> getPage(Integer page) {
-        PageHelper.startPage(page, 20);
-        Page<Block> blocks = blockMapper.page();
+        List<Block> blocks = blockMapper.selectRecent();
         return blocks;
     }
 
+    @Override
+    public Page<Block> getWithPage(Integer page) {
+        PageHelper.startPage(page, 20);
+        Page<Block> blocks = blockMapper.selectWithPage();
+        return blocks;
+    }
+
+    @Override
+    public Block getByBlockhash(String blockhash) {
+        Block block = blockMapper.selectByBlockhash(blockhash);
+        return block;
+    }
 }

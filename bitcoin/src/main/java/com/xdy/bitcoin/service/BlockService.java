@@ -2,7 +2,6 @@ package com.xdy.bitcoin.service;
 
 import com.github.pagehelper.Page;
 import com.xdy.bitcoin.po.Block;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
@@ -14,5 +13,7 @@ public interface BlockService {
 
     List<Block> getRecent();
 
-    Page<Block> getPage(Integer page);
+    Page<Block> getWithPage(Integer page);
+
+    Block getByBlockhash(String blockhash);
 }
