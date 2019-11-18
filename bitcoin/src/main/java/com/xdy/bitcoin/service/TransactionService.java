@@ -14,5 +14,8 @@ public interface TransactionService {
 
     Transaction getByTxid(String txid);
 
+    Page<Transaction> getTransactionByAddressPage(String address, Integer page);
+
+
 }
 

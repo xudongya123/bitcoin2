@@ -65,33 +65,44 @@ public class TransactionController {
      Block block= blockService.getByBlockhash(blockhash);
      Integer blockId = block.getBlockId();
      Page<Transaction> pageXt = transactionService.getByBlockIdPage(blockId, page);
-        List<JSONObject> txJsons = pageXt.stream().map(tx -> {
-            JSONObject txJson = new JSONObject();
-            txJson.put("txid", tx.getTxid());
-            txJson.put("txhash", tx.getTxhash());
-            txJson.put("time", tx.getTime());
-            txJson.put("fees", tx.getFees());
-            txJson.put("totalOutput", tx.getTotalOutput());
-
-            List<TransactionDetail> txDetails = transactionDetailService.getByTransactionId(tx.getTransactionId());
-            List<JSONObject> txDetailJsons = txDetails.stream().map(txDetail -> {
-                JSONObject txDetailJson = new JSONObject();
-                txDetailJson.put("address", txDetail.getAddress());
-                txDetailJson.put("type", txDetail.getType());
-                txDetailJson.put("amount", Math.abs(txDetail.getAmount()));
-                return txDetailJson;
-            }).collect(Collectors.toList());
-            txJson.put("txDetails", txDetailJsons);
-            return txJson;
-        }).collect(Collectors.toList());
-
-     PageDTO<JSONObject> pageDTO=new PageDTO<>();
-     pageDTO.setTotal(pageXt.getTotal());
-     pageDTO.setPageSize(PageConfig.PAGE_SIZE);
-     pageDTO.setCurrentPage(pageXt.getPageNum());
-     pageDTO.setList(txJsons);
-     return pageDTO;
+        PageDTO<JSONObject> pageDTO = getPageDTOPage(pageXt);
+        return pageDTO;
     }
 
+
+    @GetMapping("/getByAddressPage")
+     public PageDTO<JSONObject> getByAddressPage(@RequestParam String address,@RequestParam(required = false,defaultValue = "1") Integer page){
+        Page<Transaction> pagetx = transactionService.getTransactionByAddressPage(address, page);
+        PageDTO<JSONObject> pageDTO = getPageDTOPage(pagetx);
+        return pageDTO;
+     }
+
+     private PageDTO<JSONObject> getPageDTOPage(Page<Transaction> pageXt){
+         List<JSONObject> txJsons = pageXt.stream().map(tx -> {
+             JSONObject txJson = new JSONObject();
+             txJson.put("txid", tx.getTxid());
+             txJson.put("txhash", tx.getTxhash());
+             txJson.put("time", tx.getTime());
+             txJson.put("fees", tx.getFees());
+             txJson.put("totalOutput", tx.getTotalOutput());
+
+             List<TransactionDetail> txDetails = transactionDetailService.getByTransactionId(tx.getTransactionId());
+             List<JSONObject> txDetailJsons = txDetails.stream().map(txDetail -> {
+                 JSONObject txDetailJson = new JSONObject();
+                 txDetailJson.put("address", txDetail.getAddress());
+                 txDetailJson.put("type", txDetail.getType());
+                 txDetailJson.put("amount", Math.abs(txDetail.getAmount()));
+                 return txDetailJson;
+             }).collect(Collectors.toList());
+             txJson.put("txDetails", txDetailJsons);
+             return txJson;
+         }).collect(Collectors.toList());
+         PageDTO<JSONObject> pageDTO=new PageDTO<>();
+         pageDTO.setTotal(pageXt.getTotal());
+         pageDTO.setPageSize(PageConfig.PAGE_SIZE);
+         pageDTO.setCurrentPage(pageXt.getPageNum());
+         pageDTO.setList(txJsons);
+         return pageDTO;
+     }
 
 }

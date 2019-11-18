@@ -25,4 +25,8 @@ public interface TransactionMapper {
 
     Transaction selectByTxid(@Param("txid") String txid);
 
+    Page<Transaction> selectTransactionByAddress(@Param("address") String address);
+
+
+
 }
