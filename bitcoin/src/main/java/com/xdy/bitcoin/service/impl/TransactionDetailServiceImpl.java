@@ -81,4 +81,16 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
         Integer total = transactionDetailMapper.selectTotalByAddress(address);
         return total;
     }
+
+    @Override
+    public Double getReceiveByAddress(String address) {
+        Double receiveAmount = transactionDetailMapper.selectReceiveByAddress(address);
+        return receiveAmount;
+    }
+
+    @Override
+    public Double getSendByAddress(String address) {
+        Double sendAmount = transactionDetailMapper.selectSendByAddress(address);
+        return sendAmount;
+    }
 }

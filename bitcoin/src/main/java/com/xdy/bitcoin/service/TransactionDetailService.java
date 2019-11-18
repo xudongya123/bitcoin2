@@ -14,4 +14,8 @@ public interface TransactionDetailService {
 
     Integer getTotalByAddress(String address);
 
+    Double getReceiveByAddress(String address);
+
+    Double getSendByAddress(String address);
+
 }

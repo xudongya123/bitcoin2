@@ -20,8 +20,17 @@ public class AddressController {
     public JSONObject getInfoByAddress(@RequestParam String address){
 
         Integer txTotal = transactionDetailService.getTotalByAddress(address);
+        Double receiveAmount = transactionDetailService.getReceiveByAddress(address);
+        Double sendAmount = transactionDetailService.getSendByAddress(address);
+
+        Double balance= receiveAmount + sendAmount;
+
         JSONObject addressInfojson = new JSONObject();
+        addressInfojson.put("address",address);
         addressInfojson.put("txSize",txTotal);
+        addressInfojson.put("totalReceived",receiveAmount);
+        addressInfojson.put("totalSend",Math.abs(sendAmount));
+        addressInfojson.put("balance",balance);
 
         return addressInfojson;
     }
