@@ -52,7 +52,9 @@ public class BlockServiceImpl implements BlockService {
 
         ArrayList<String> txids = (ArrayList<String>) blockJson.get("tx");
         for (String txid : txids) {
+
             transactionService.syncTransaction(txid, blockId, time);
+
         }
 
         String nextblockhash = blockJson.getString("nextblockhash");

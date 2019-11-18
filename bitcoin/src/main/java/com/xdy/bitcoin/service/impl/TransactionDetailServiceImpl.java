@@ -75,4 +75,10 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
         List<TransactionDetail> transactionDetails = transactionDetailMapper.selectByTransactionId(transactionId);
         return transactionDetails;
     }
+
+    @Override
+    public Integer getTotalByAddress(String address) {
+        Integer total = transactionDetailMapper.selectTotalByAddress(address);
+        return total;
+    }
 }
