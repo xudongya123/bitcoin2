@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/css/elementui.css">
+    <title>Block</title>
+</head>
+
+<body>
+    <div id="app">
+            
+            Hash:{{block.blockhash}}
+            <el-divider></el-divider>
+            Confirmations:{{block.confirmations}}
+            <el-divider></el-divider>
+            Time:{{block.time}}
+            <el-divider></el-divider>
+            Height:{{block.height}}
+            <el-divider></el-divider>
+            Miner:{{block.miner}}
+            <el-divider></el-divider>
+            Number of Transactions:{{block.sizeOnDisk}}
+            <el-divider></el-divider>
+            Difficulty:{{block.difficulty}}
+            <el-divider></el-divider>
+            Merkle root:{{block.merkle_root}}
+            <el-divider></el-divider>
+            Version:{{block.version}}
+            <el-divider></el-divider>
+            Bits:{{block.bits}}
+            <el-divider></el-divider>
+            Weight:{{block.weight}}
+            <el-divider></el-divider>
+            Size:{{block.txSize}}
+            <el-divider></el-divider>
+            Nonce:{{block.nonce}}
+            <el-divider></el-divider>
+            Transaction Volume:{{block.transaction_volume}}
+            <el-divider></el-divider>
+            Block Reward:{{block.block_reward}}
+            <el-divider></el-divider>
+            Fee Reward:{{block.fee_reward}}
+            <el-divider></el-divider>
+
+	</div>
+
+    <script src="assets/js/axios.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/elementui.js"></script>
+    <script src="viewmodels/block.js"></script>
+
+</body>
+
+</html>
